@@ -162,16 +162,179 @@ acknowledge that the template creates IAM resources and might require the abilit
 8. Monitor the status of the stack. When the status is CREATE_COMPLETE, the Consul cluster is ready.
 
 ### Step 4. Test the deployment
-TODO: 
 
-### Parameter reference
-TODO: 
+These are the items to test after the quickstart is deployed.
+* Kubernetes Consul deployment namespace and dedicated node selection:
+  The deployment creates a namespace named `vault-server` by default. To verify the namespace in kuberkenes, please 
+  run the following:
+  ```
+  $ kubectl get ns
+  NAME              STATUS   AGE
+  consul-qs         Active   4d3h
+  default           Active   4d7h
+  kube-node-lease   Active   4d7h
+  kube-public       Active   4d7h
+  kube-system       Active   4d7h
+  vault-server      Active   30m
+  ```
+  The deployment builds kuberntes server pods of the `vault-server` namespace on dedicated nodes. To verify the dedicated nodes,
+  please run the following:
+  ```
+  $ kubectl get pods -o wide -n vault-server
+  NAME                                                        READY   STATUS      RESTARTS   AGE   IP            NODE                                         NOMINATED NODE   READINESS GATES
+  boot-vault-sg-01f5e0c0d6458ed88-5hrf8                       0/1     Completed   0          25m   10.0.32.188   ip-10-0-60-134.eu-north-1.compute.internal   <none>           <none>
+  boot-vault-sg-01f5e0c0d6458ed88-dfwkp                       0/1     Error       0          27m   10.0.59.145   ip-10-0-60-134.eu-north-1.compute.internal   <none>           <none>
+  certificate-vault-sg-01f5e0c0d6458ed88-24h6n                0/1     Completed   0          29m   10.0.30.86    ip-10-0-16-209.eu-north-1.compute.internal   <none>           <none>
+  vault-sg-01f5e0c0d6458ed88-0                                1/1     Running     0          26m   10.0.12.215   ip-10-0-6-233.eu-north-1.compute.internal    <none>           <none>
+  vault-sg-01f5e0c0d6458ed88-1                                1/1     Running     0          26m   10.0.64.124   ip-10-0-86-92.eu-north-1.compute.internal    <none>           <none>
+  vault-sg-01f5e0c0d6458ed88-2                                1/1     Running     0          26m   10.0.55.38    ip-10-0-60-134.eu-north-1.compute.internal   <none>           <none>
+  vault-sg-01f5e0c0d6458ed88-agent-injector-b76f744b6-6pjp9   1/1     Running     0          26m   10.0.86.51    ip-10-0-86-92.eu-north-1.compute.internal    <none>           <none>
+  ```
+
+* Kubernetes services:
+  The deployment creates a minimum of 7 services as follows:
+  ```
+  $ kubectl get svc -n vault-server
+  NAME                                            TYPE           CLUSTER-IP       EXTERNAL-IP                                                                PORT(S)             AGE
+  vault-sg-01f5e0c0d6458ed88                      ClusterIP      172.20.238.238   <none>                                                                     8200/TCP,8201/TCP   27m
+  vault-sg-01f5e0c0d6458ed88-active               ClusterIP      172.20.9.90      <none>                                                                     8200/TCP,8201/TCP   27m
+  vault-sg-01f5e0c0d6458ed88-agent-injector-svc   ClusterIP      172.20.235.220   <none>                                                                     443/TCP             27m
+  vault-sg-01f5e0c0d6458ed88-internal             ClusterIP      None             <none>                                                                     8200/TCP,8201/TCP   27m
+  vault-sg-01f5e0c0d6458ed88-standby              ClusterIP      172.20.169.201   <none>                                                                     8200/TCP,8201/TCP   27m
+  vault-sg-01f5e0c0d6458ed88-ui                   LoadBalancer   172.20.59.230    a4b85f61771234af08061c887f26001d-1681023831.eu-north-1.elb.amazonaws.com   443:32436/TCP       27m
+  ```
+
+* Vault HA configuration:
+  Verify the Vault HA configuration by running the following:
+  ```
+  $ kubectl exec -ti -n vault-server vault-sg-01f5e0c0d6458ed88-0 -- /bin/sh
+  / $ export VAULT_SKIP_VERIFY=true
+  / $ vault login s.JWF4aKPvElAEzFZZzojl9cgZ
+  Success! You are now authenticated. The token information displayed below
+  is already stored in the token helper. You do NOT need to run "vault login"
+  again. Future Vault requests will automatically use this token.
+
+  Key                  Value
+  ---                  -----
+  token                s.JWF4aKPvElAEzFZZzojl9cgZ
+  token_accessor       xceUAbCKAAS86OKupBK2Bhlr
+  token_duration       ∞
+  token_renewable      false
+  token_policies       ["root"]
+  identity_policies    []
+  policies             ["root"]
+  / $ vault status
+  Key                      Value
+  ---                      -----
+  Recovery Seal Type       shamir
+  Initialized              true
+  Sealed                   false
+  Total Recovery Shares    5
+  Threshold                3
+  Version                  1.5.3
+  Cluster Name             vault-cluster-9abfeb1c
+  Cluster ID               f04374ee-3ebe-4e0f-fa50-892d48421e70
+  HA Enabled               true
+  HA Cluster               https://vault-sg-01f5e0c0d6458ed88-0.vault-sg-01f5e0c0d6458ed88-internal:8201
+  HA Mode                  active
+  Raft Committed Index     119
+  Raft Applied Index       119
+
+  ```
+  Observer the HA Enabled, HA Cluster and HA mode configuration entries from the above.
+
+
+* Vault UI SSL certificate:
+  This is done by verifying the DNS endpoint of the deployment and checking for the SSL cert installation
+  ```
+  $ openssl s_client -connect  lonconsul.gargana.myinstance.com:443
+  CONNECTED(00000007)
+  depth=2 C = US, O = Amazon, CN = Amazon Root CA 1
+  verify return:1
+  depth=1 C = US, O = Amazon, OU = Server CA 1B, CN = Amazon
+  verify return:1
+  depth=0 CN = lonconsul.gargana.myinstance.com
+  verify return:1
+  ---
+  Certificate chain
+  0 s:CN = lonconsul.gargana.myinstance.com
+    i:C = US, O = Amazon, OU = Server CA 1B, CN = Amazon
+  1 s:C = US, O = Amazon, OU = Server CA 1B, CN = Amazon
+    i:C = US, O = Amazon, CN = Amazon Root CA 1
+  2 s:C = US, O = Amazon, CN = Amazon Root CA 1
+    i:C = US, ST = Arizona, L = Scottsdale, O = "Starfield Technologies, Inc.", CN = Starfield Services Root Certificate Authority - G2
+  3 s:C = US, ST = Arizona, L = Scottsdale, O = "Starfield Technologies, Inc.", CN = Starfield Services Root Certificate Authority - G2
+    i:C = US, O = "Starfield Technologies, Inc.", OU = Starfield Class 2 Certification Authority
+  ---
+  Server certificate
+  -----BEGIN CERTIFICATE-----
+  MIIFrDCCBJSgAwIBAgIQA+/KZ0HG5aT6xAZLv0NjlDANBgkqhkiG9w0BAQsFADBG
+  MQswCQYDVQQGEwJVUzEPMA0GA1UEChMGQW1hem9uMRUwEwYDVQQLEwxTZXJ2ZXIg
+  Q0EgMUIxDzANBgNVBAMTBkFtYXpvbjAeFw0yMDEwMTUwMDAwMDBaFw0yMTExMTMy
+  MzU5NTlaMCsxKTAnBgNVBAMTIGxvbmNvbnN1bC5nYXJnYW5hLm15aW5zdGFuY2Uu
+  Y29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7ZwqhfY7fU/ui+i6
+  WCGffE/Dl+upf6W9aoiLU+8T7PxI0Pgr30uNPmXHfrYGlqUVAfwAWrfAKKGShuGZ
+  hhmg18YpRIo0aMdYaIDv8RBj8dwDMF0ACpYfPZvFtKkO3RN/2sn6ApWDeD8cN9lq
+  bOCTZHDH6QMMxgK3FrmtG9OyjeOQUe2k39KjAjwP3KKFxW88QP51Q0lHXyd45zzG
+  jcQOZFlOdF+y9QNTRr1FBbCUm5mGpZseWs2/wU1fO7mOuuvzxmmYZ1d4kfwk8dXQ
+  Zm242e0weXgiLuj0Q4rbkxsoYhJ1XAvFSxXV/SItvpsR7hGslKrdrRKSS1AvsrVU
+  DGoSzwIDAQABo4ICrzCCAqswHwYDVR0jBBgwFoAUWaRmBlKge5WSPKOUByeWdFv5
+  PdAwHQYDVR0OBBYEFNMAPyPH6TYMka68RiDI+ON5cWLNME8GA1UdEQRIMEaCIGxv
+  bmNvbnN1bC5nYXJnYW5hLm15aW5zdGFuY2UuY29tgiIqLmxvbmNvbnN1bC5nYXJn
+  YW5hLm15aW5zdGFuY2UuY29tMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggr
+  BgEFBQcDAQYIKwYBBQUHAwIwOwYDVR0fBDQwMjAwoC6gLIYqaHR0cDovL2NybC5z
+  Y2ExYi5hbWF6b250cnVzdC5jb20vc2NhMWIuY3JsMCAGA1UdIAQZMBcwCwYJYIZI
+  AYb9bAECMAgGBmeBDAECATB1BggrBgEFBQcBAQRpMGcwLQYIKwYBBQUHMAGGIWh0
+  dHA6Ly9vY3NwLnNjYTFiLmFtYXpvbnRydXN0LmNvbTA2BggrBgEFBQcwAoYqaHR0
+  cDovL2NydC5zY2ExYi5hbWF6b250cnVzdC5jb20vc2NhMWIuY3J0MAwGA1UdEwEB
+  /wQCMAAwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQD2XJQv0XcwIhRUGAgwlFaO
+  400TGTO/3wwvIAvMTvFk4wAAAXUtvpNMAAAEAwBGMEQCIBQqjFHMQDxoeaxhwJlD
+  dmELOU0v1+2jPvKbxgnS9Sr2AiArQ+SOeM3bTpnY7BBX9ue2+z16KZaHuan+PB/L
+  FmqhBgB2AFzcQ5L+5qtFRLFemtRW5hA3+9X6R9yhc5SyXub2xw7KAAABdS2+k5sA
+  AAQDAEcwRQIhAOUW8k67YCzwqxx/pVYIzR5heOqYsqCW/6nRFkyECj6YAiA3007S
+  pf7GzxULAaTAwQjpnvb/d/tu2O9VxqTxLoSTPjANBgkqhkiG9w0BAQsFAAOCAQEA
+  nwKKUxQ+VDDKbh93XJ8mdhXYGHk8R9MH/HUprH9i2JSVovTYabo+kk8HC5Vo0Pwu
+  NOEMjRe008xraTpAzfSjr2fupjltJB6lXehPe5sJaWPJ0mX3OBt4VyfrO6MYdmpy
+  iGLhMXM357+CN75aMv1BD4pVA+a75dhvcUOfZCni4guQ+7wbbwONrKdwtg9FudWf
+  XzvTdg1Q8VPfuQWUJb8tmITseg+8KDTyUn1u2SiNWHj17hBTSBTjkVt97id0BtZ/
+  UYrBWVldmJw0pJ6XYgQc6pBg6A86390sGkRzOfhYkT8AIbKNKSwtCRV0aBY2Nb4+
+  i81nP0KKeSvWcRf4/Gj+WA==
+  -----END CERTIFICATE-----
+  subject=CN = lonconsul.gargana.myinstance.com
+
+  issuer=C = US, O = Amazon, OU = Server CA 1B, CN = Amazon
+
+  ---
+  ```
+
+* Vault raft peer election:
+  To check on the  raft peer election status, run the following:
+  ```
+  $ kubectl exec -ti -n vault-server vault-sg-01f5e0c0d6458ed88-0 -- /bin/sh
+  / $ vault operator raft list-peers
+  Node                            Address                                                                  State       Voter
+  ----                            -------                                                                  -----       -----
+  vault-sg-01f5e0c0d6458ed88-0    vault-sg-01f5e0c0d6458ed88-0.vault-sg-01f5e0c0d6458ed88-internal:8201    leader      true
+  vault-sg-01f5e0c0d6458ed88-1    vault-sg-01f5e0c0d6458ed88-1.vault-sg-01f5e0c0d6458ed88-internal:8201    follower    true
+  vault-sg-01f5e0c0d6458ed88-2    vault-sg-01f5e0c0d6458ed88-2.vault-sg-01f5e0c0d6458ed88-internal:8201    follower    true
+  ```
 
 ### Best practices for using Vault on AWS
-TODO: 
 
-## Security
-TODO: 
+These are the best best practices for using Vault on AWS. Please note that these best practices are enabled by default in this
+quickstart:
+
+* Enabled AWS KMS auto-unseal: This will make use of AWS KMS for storing and encrypting Vault's unseal keys. For more info, please visit
+[Auto-unseal using AWS KMS](https://learn.hashicorp.com/tutorials/vault/autounseal-aws-kms)
+
+* Enable Cluster HA: This will make sure that Vault is set up for fault tolerance. For more info, please visit [Vault HA Cluster with Integrated Storage](https://learn.hashicorp.com/tutorials/vault/raft-storage?in=vault/interactive)
+
+* Enable Raft storage for  HA: This will set up the raft consensus protocol as Vault's storage backend. For more info, please visit [Use Integrated Storage for HA Coordination](https://learn.hashicorp.com/tutorials/vault/raft-ha-storage?in=vault/interactive)
+
+* Enable Vault audit to AWS CloudWatch: This will enable audit logs for troubleshoooting. For more info, please visit [Enabling audit devices](https://learn.hashicorp.com/tutorials/vault/troubleshooting-vault#enabling-audit-devices)
+
+* Enable SSL at the Vault UI endpoint: This will secure the Vault UI endpoint with a SSL certificate. For more info, please visit [Vault UI](https://www.vaultproject.io/docs/configuration/ui)
+
 
 ## FAQ
 **Q**. I encountered a CREATE_FAILED error when I launched the Quick Start. 
