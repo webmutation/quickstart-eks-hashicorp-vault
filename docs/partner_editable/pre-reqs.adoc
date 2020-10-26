@@ -11,7 +11,7 @@ Option 1: Let the Quick Start create one.
 
 Option 2: Bring your own.
 
-* Provide your own ACM certificate by it's
+* Provide your own ACM certificate
 https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awscertificatemanager.html#awscertificatemanager-resources-for-iam-policies[Amazon Resource Name(ARN)].
 
-NOTE: The ACM certificate must reside in the same AWS Region in which you are deploying this Quick Start.
+NOTE: The ACM certificate must reside in the same AWS Region in which you deploy this Quick Start.
