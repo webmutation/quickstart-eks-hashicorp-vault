@@ -13,4 +13,4 @@ your existing AWS infrastructure.
 NOTE: Many advanced or optional configuration items must be configured by launching the
 https://fwd.aws/zwGDB[advanced configuration stack, role=external, window=_blank] before launching one of the deployment options.
 
-The Quick Start provides separate templates for these options.
+This Quick Start provides separate templates for these options.

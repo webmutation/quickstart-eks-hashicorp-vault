@@ -842,9 +842,9 @@ p.footer-text a{color:#d7d8d8}
 </div>
 </div>
 <div class="paragraph text-center">
-<p><strong>October, 2020</strong><br>
-<em>Dan Callao - HashiCorp</em><br>
-<em>Andrew Gargan - AWS Solutions Architect</em></p>
+<p><strong>October 2020</strong><br>
+<em>Dan Callao, HashiCorp</em><br>
+<em>Andrew Gargan, AWS Quick Start team</em></p>
 </div>
 <div class="admonitionblock tip text-left">
 <table>
@@ -873,29 +873,29 @@ Vault on Amazon Elastic Kubernetes Service (Amazon EKS) via HashiCorp
 Vault&#8217;s Helm chart.</p>
 </div>
 <div class="paragraph">
-<p>HashiCorp Vault is a product that centrally secures, stores and controls access to
+<p>HashiCorp Vault is a product that centrally secures, stores, and controls access to
 tokens, passwords, certificates, and encryption keys through a UI, CLI, or an HTTP API.</p>
 </div>
 <div class="paragraph">
-<p>HashiCorp Vault&#8217;s core use cases include:</p>
+<p>HashiCorp Vault&#8217;s core use cases include the following:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><em>Secrets management</em>: Securely manage and deploy secrets across different environments, applications, and services.</p>
+<p><em>Secrets management</em>: Helps to securely manage and deploy secrets across different environments, applications, and services.</p>
 </li>
 <li>
 <p><em>Encryption and data protection</em>: Manage encryption and keys for developers and operators across different
 environments, applications, and services.</p>
 </li>
 <li>
-<p><em>Privileged-access management</em>: Secure workloads for application-to-application and user-to-application credential
+<p><em>Privileged-access management</em>: Helps to secure workloads for application-to-application and user-to-application credential
 management across different environments and services.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>This Quick Start is for for DevOps professionals and application developers who want to manage their secrets, data, and
+<p>This Quick Start is for DevOps professionals and application developers who want to manage their secrets, data, and
 key-value stores. It is deployed via
 <a href="https://github.com/hashicorp/vault-helm" class="external" target="_blank" rel="noopener">HashiCorp Vault&#8217;s Helm chart</a>,
 which contains all of the resource definitions to install and configure Vault inside of a Kubernetes cluster.</p>
@@ -907,9 +907,7 @@ which contains all of the resource definitions to install and configure Vault in
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Amazon may share who uses AWS
-Quick Starts with the AWS Partner Network (APN) Partner that
-collaborated with AWS on the content of the Quick Start.
+Amazon may share user-deployment information with the AWS Partner that collaborated with AWS on the Quick Start.
 </td>
 </tr>
 </table>
@@ -920,19 +918,7 @@ collaborated with AWS on the content of the Quick Start.
 <h2 id="_software_licenses">Software licenses</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>These two paragraphs provide an example of the details you can provide. Provide links as appropriate.</p>
-</div>
-<div class="paragraph">
-<p>Example content below:</p>
-</div>
-<div class="paragraph">
-<p><em>&lt;license information&gt;This Quick Start requires a license for Vault. To use the Quick Start in your production environment, sign up for a license at &lt;link&gt;. When you launch the Quick Start, place the license key in an S3 bucket and specify its location.</em></p>
-</div>
-<div class="paragraph">
-<p><em>If you don’t have a license, the Quick Start deploys with a trial license. The trial license gives you &lt;n&gt; days of free usage in a non-production environment. After this time, you can upgrade to a production license by following the instructions at &lt;link&gt;.</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;AMI information&gt;The Quick Start requires a subscription to the Amazon Machine Image (AMI) for Vault, which is available from <a href="https://aws.amazon.com/marketplace/" target="_blank" rel="noopener">AWS Marketplace</a>. Additional pricing, terms, and conditions may apply. For instructions, see <a href="#step-2.-subscribe-to-the-software-ami">step 2</a> in the deployment section.</em></p>
+<p>No licenses are required.</p>
 </div>
 </div>
 </div>
@@ -957,22 +943,22 @@ collaborated with AWS on the content of the Quick Start.
 <div class="ulist">
 <ul>
 <li>
-<p>Elastic Load Balancer.</p>
+<p>Elastic Load Balancer for the Vault UI service.</p>
 </li>
 <li>
-<p>Amazon Certificate Manager(ACM) certificate.</p>
+<p>Amazon Certificate Manager(ACM) certificate for the Vault UI service.</p>
 </li>
 <li>
-<p>boot-vault IAM Role.</p>
+<p>boot-vault IAM Role used to bootstrap the Vault servers.</p>
 </li>
 <li>
-<p>vault-server IAM Role.</p>
+<p>vault-server IAM Role used for Vault to access KMS for auto unseal.</p>
 </li>
 <li>
 <p>AWS Secrets Manager secret to store the Vault on Amazon EKS root secret.</p>
 </li>
 <li>
-<p>Auto-unseal AWS Key Management Service(KMS) key.</p>
+<p>Auto-unseal AWS Key Management Service(KMS) key used for auto unseal.</p>
 </li>
 </ul>
 </div>
@@ -985,10 +971,10 @@ collaborated with AWS on the content of the Quick Start.
 <p>Dedicated nodegroup for Vault on Amazon EKS.</p>
 </li>
 <li>
-<p>namespace for Vault on Amazon EKS.</p>
+<p>Dedicated namespace for Vault on Amazon EKS.</p>
 </li>
 <li>
-<p>Internal Vault TLS certificate and certificate authority.</p>
+<p>Internal Vault TLS certificate and certificate authority for secure communication.</p>
 </li>
 <li>
 <p>Vault service:</p>
@@ -998,10 +984,7 @@ collaborated with AWS on the content of the Quick Start.
 <p>Vault server pods.</p>
 </li>
 <li>
-<p>Vault service.</p>
-</li>
-<li>
-<p>Vault ui service.</p>
+<p>Vault UI service.</p>
 </li>
 </ul>
 </div>
@@ -1025,7 +1008,7 @@ deploy, and operate your infrastructure and applications on the AWS
 Cloud.</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start assumes familiarity with <a href="https://aws.amazon.com/eks/">Amazon EKS</a>, <a href="https://aws.amazon.com/cloudformation/">AWS CloudFormation</a> and <a href="https://kubernetes.io/">Kubernetes</a>.</p>
+<p>This Quick Start assumes familiarity with <a href="https://aws.amazon.com/eks/">Amazon EKS</a>, <a href="https://aws.amazon.com/cloudformation/">AWS CloudFormation</a>, and <a href="https://kubernetes.io/">Kubernetes</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1251,8 +1234,7 @@ If you’re deploying Vault into an existing VPC, make sure that any private sub
 <div class="sect3">
 <h4 id="_kubernetes_consul_deployment_namespace_and_dedicated_node_selection">Kubernetes Consul deployment namespace and dedicated node selection:</h4>
 <div class="paragraph">
-<p>The deployment creates a namespace named <code>vault-server</code> by default. To verify the namespace in Kubernetes, please
-run the following:</p>
+<p>This deployment creates a <code>vault-server</code> namespace by default. Verify the namespace in Kubernetes:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1266,8 +1248,7 @@ vault-server      Active   30m</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The deployment builds kubernetes server pods of the <code>vault-server</code> namespace on dedicated nodes. To verify the dedicated nodes,
-please run the following:</p>
+<p>This deployment builds Kubernetes server pods on dedicated nodes in the <code>vault-server</code> namespace. Verify the nodes:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1286,7 +1267,7 @@ vault-sg-01f5e0c0d6458ed88-agent-injector-b76f744b6-6pjp9   1/1     Running     
 <div class="sect3">
 <h4 id="_kubernetes_services">Kubernetes services:</h4>
 <div class="paragraph">
-<p>The deployment creates a minimum of 7 services as follows:</p>
+<p>This deployment creates at least seven services:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1304,7 +1285,7 @@ vault-sg-01f5e0c0d6458ed88-ui                   LoadBalancer   172.20.59.230    
 <div class="sect3">
 <h4 id="_vault_ha_configuration">Vault HA configuration:</h4>
 <div class="paragraph">
-<p>Verify the Vault HA configuration by running the following:</p>
+<p>Verify Vault&#8217;s high-availability configuration:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1343,11 +1324,11 @@ Raft Applied Index       119</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Observe the HA Enabled, HA Cluster and HA mode configuration entries in above output.</p>
+<p>Note the HA Enabled, HA Cluster, and HA mode configuration entries in the previous output.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_vault_ui_ssl_certificatethis_is_done_by_verifying_the_dns_endpoint_of_the_deployment_and_checking_for_the_ssl_cert_installation">Vault UI SSL certificate:This is done by verifying the DNS endpoint of the deployment and checking for the SSL cert installation</h4>
+<h4 id="_vault_ui_ssl_certificate_verify_the_dns_endpoint_of_the_deployment_and_check_for_the_ssl_certificate">Vault UI SSL certificate: Verify the DNS endpoint of the deployment, and check for the SSL certificate:</h4>
 <div class="listingblock">
 <div class="content">
 <pre>$ openssl s_client -connect  lonconsul.gargana.myinstance.com:443
@@ -1394,9 +1375,9 @@ issuer=C = US, O = Amazon, OU = Server CA 1B, CN = Amazon
 </div>
 </div>
 <div class="sect3">
-<h4 id="_vault_raft_peer_election">Vault raft peer election:</h4>
+<h4 id="_vault_raft_peer_election">Vault raft-peer election:</h4>
 <div class="paragraph">
-<p>To check on the  raft peer election status, run the following:</p>
+<p>Check the raft-peer election status:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1414,26 +1395,25 @@ vault-sg-01f5e0c0d6458ed88-2    vault-sg-01f5e0c0d6458ed88-2.vault-sg-01f5e0c0d6
 <div class="sect2">
 <h3 id="_best_practices_for_using_vault_on_aws">Best practices for using Vault on AWS</h3>
 <div class="paragraph">
-<p>These are the best best practices for using Vault on Amazon EKS Please note that these best practices are enabled by default in this
-Quick Start:</p>
+<p>The followng best practices are enabled by default for this Quick Start:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Enabled AWS KMS auto-unseal: This will make use of AWS KMS for storing and encrypting Vault&#8217;s unseal keys. For more info, please visit
+<p>Enabled AWS KMS auto-unseal: This uses AWS KMS to store and encrypt Vault&#8217;s unseal keys. For more information, see
 <a href="https://learn.hashicorp.com/tutorials/vault/autounseal-aws-kms" target="_blank" rel="noopener">Auto-unseal using AWS KMS</a>.</p>
 </li>
 <li>
-<p>Enable Cluster HA: This will make sure that Vault is set up for fault tolerance. For more info, please visit <a href="https://learn.hashicorp.com/tutorials/vault/raft-storage?in=vault/interactive" target="_blank" rel="noopener">Vault HA Cluster with Integrated Storage</a>.</p>
+<p>Enable Cluster HA: This helps to ensure that Vault is set up for fault tolerance. For more information, see <a href="https://learn.hashicorp.com/tutorials/vault/raft-storage?in=vault/interactive" target="_blank" rel="noopener">Vault HA Cluster with Integrated Storage</a>.</p>
 </li>
 <li>
-<p>Enable Raft storage for  HA: This will set up the raft consensus protocol as Vault&#8217;s storage backend. For more info, please visit <a href="https://learn.hashicorp.com/tutorials/vault/raft-ha-storage?in=vault/interactive" target="_blank" rel="noopener">Use Integrated Storage for HA Coordination</a>.</p>
+<p>Enable Raft storage for  HA: This sets up the raft consensus protocol as Vault&#8217;s storage backend. For more information, see <a href="https://learn.hashicorp.com/tutorials/vault/raft-ha-storage?in=vault/interactive" target="_blank" rel="noopener">Use Integrated Storage for HA Coordination</a>.</p>
 </li>
 <li>
-<p>Enable Vault audit to AWS CloudWatch: This will enable audit logs for troubleshooting. For more info, please visit <a href="https://learn.hashicorp.com/tutorials/vault/troubleshooting-vault#enabling-audit-devices" target="_blank" rel="noopener">Enabling audit devices</a>.</p>
+<p>Enable Vault audit to AWS CloudWatch: This enables troubleshooting audit logs. For more information, see <a href="https://learn.hashicorp.com/tutorials/vault/troubleshooting-vault#enabling-audit-devices" target="_blank" rel="noopener">Enabling audit devices</a>.</p>
 </li>
 <li>
-<p>Enable SSL at the Vault UI endpoint: This will secure the Vault UI endpoint with a SSL certificate. For more info, please visit <a href="https://www.vaultproject.io/docs/configuration/ui" target="_blank" rel="noopener">Vault UI</a>.</p>
+<p>Enable SSL at the Vault UI endpoint: This helps to secure the Vault UI endpoint with an SSL certificate. For more information, see <a href="https://www.vaultproject.io/docs/configuration/ui" target="_blank" rel="noopener">Vault UI</a>.</p>
 </li>
 </ul>
 </div>
