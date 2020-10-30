@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "Deploys the HashiCorp Vault helm chart on an Amazon EKS cluster (qs-1r79drkr6)"
+Description: "Deploys the HashiCorp Vault Helm chart on an Amazon EKS cluster (qs-1r79drkr6)"
 Metadata:
   LintSpellExclude:
     - Kubernetes
@@ -71,7 +71,7 @@ Metadata:
       ACMSSLCertificateArn:
         default: ACM SSL certificate ARN
       HostedZoneID:
-        default: Route 53 hosted zone id
+        default: Route 53–hosted zone ID
       DomainName:
         default: Load balancer DNS name
       VaultVersion:
@@ -90,8 +90,8 @@ Parameters:
     Description: Amazon EKS cluster.
   KeyPairName:
     Type: "AWS::EC2::KeyPair::KeyName"
-    Description: Name of an existing key pair, which allows you
-      to securely connect to your instances after they launch.
+    Description: Name of an existing key pair, which helps to secure your
+      connection to instances after they launch.
   PrivateSubnet1ID:
     Type: "AWS::EC2::Subnet::Id"
     Description: ID of the private subnet in Availability Zone 1 of your existing VPC (e.g., subnet-fe9a8b32).
@@ -110,7 +110,7 @@ Parameters:
   VaultDeploymentSize:
     Type: String
     Default: "small"
-    Description: Deployment size of dedicated HashiCorp Vault nodes
+    Description: Deployment size of dedicated HashiCorp Vault nodes.
       (see https://learn.hashicorp.com/tutorials/vault/kubernetes-reference-architecture).
     AllowedValues:
       - "small"
@@ -125,7 +125,7 @@ Parameters:
     Default: "3"
     AllowedValues:
       - "3"
-    Description: The number of dedicated Vault server nodes and pods.
+    Description: Number of dedicated Vault server nodes and pods.
   HttpProxy:
     Type: String
     Default: ""
@@ -139,27 +139,27 @@ Parameters:
       - "External"
   AccessCIDR:
     AllowedPattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$"
-    Description: "The CIDR IP range that is permitted to access Vault. Note: A value
-      of 0.0.0.0/0 allows access from ANY IP address."
+    Description: "CIDR IP range that is permitted to access Vault. Note that a value
+      of 0.0.0.0/0 allows access from any IP address."
     Default: 127.0.0.1/32
     Type: String
   DomainName:
     Type: String
     Description: >-
-      Fully qualified DNS name for the vault-ui service load balancer.
-      If you don't provide a value for "ACM SSL certificate ARN", use the HostedZoneID.
+      Fully qualified DNS name for the "vault-ui" service load balancer.
+      If you don't provide a value for "ACM SSL certificate ARN", use "HostedZoneID."
     MaxLength: 128
     Default: ""
   HostedZoneID:
     Type: String
     Description: >-
-      Route 53-hosted zone ID of the domain name. If you don't provide an ACMSSLCertificateArn value, the Quick Start
-      creates an ACM certificate for you using HostedZoneID in conjunction with Domain name.
+      Route 53–hosted zone ID of the domain name. If you don't provide a value for "ACMSSLCertificateArn,"" the Quick Start
+      creates an ACM certificate for you using "HostedZoneID" in conjunction with the domain name.
     Default: ""
   ACMSSLCertificateArn:
     Description: >-
       ARN of the load balancer's ACM SSL certificate. If you don't provide values for "Domain name" and
-      "Hosted zone id", provide a value for "ACM SSL certificate ARN".
+      "HostedZoneID," provide a value for "ACM SSL certificate ARN."
     Type: String
     Default: ""
   QSS3BucketName:
@@ -174,7 +174,7 @@ Parameters:
     Type: String
   QSS3BucketRegion:
     Default: 'us-east-1'
-    Description: 'The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.'
+    Description: 'AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.'
     Type: String
   QSS3KeyPrefix:
     AllowedPattern: "^[0-9a-zA-Z-/]*$"
@@ -283,7 +283,7 @@ Resources:
       cfn-lint: {config: {ignore_checks: [E3008]}} # Parameter type mismatch
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Enables SSH access from the Bastion servers.
+      GroupDescription: Enables SSH access from the bastion servers.
       VpcId: !Ref GetClusterVPCID
       SecurityGroupIngress:
         - IpProtocol: tcp
@@ -770,30 +770,30 @@ Outputs:
       - DNSAddress: !If [ CustomDns, !Ref DomainName, !Sub "${GetELBDetail.Response}" ]
   VaultSecret:
     Value: !Ref "VaultSecret"
-    Description: The AWS Secrets Manager Secret containing the ROOT TOKEN and Recovery Secret for HashiCorp Vault.
+    Description: AWS Secrets Manager secret that contains the root token and recovery secret for HashiCorp Vault.
   VaultKMSKeyArn:
     Value: !GetAtt "VaultKmsKey.Arn"
-    Description: The AWS KMS Key used to Auto Unseal HashiCorp Vault and encrypt the ROOT TOKEN and Recovery Secret.
+    Description: AWS KMS Key used to Auto Unseal HashiCorp Vault and encrypt the root token and recovery secret.
 Rules:
   DomainNamePresentWithHostedID:
     RuleCondition:
       !Equals [ !Ref HostedZoneID, '' ]
     Assertions:
       - Assert: !Not [!Equals [!Ref DomainName, '']]
-        AssertDescription: "Please specify a 'Domain Name' if you specify 'Route 53 Hosted Zone ID'"
+        AssertDescription: "Specify 'DomainName' if you specified 'Route 53–hosted zone ID.'"
   HostedIDPresentWithDomainName:
     RuleCondition:
       !Equals [ !Ref DomainName, '' ]
     Assertions:
       - Assert: !Not [!Equals [!Ref HostedZoneID, '']]
-        AssertDescription: "Please specify a 'Route 53 Hosted Zone ID' if you specify 'Domain Name'"
+        AssertDescription: "Specify a 'Route 53 Hosted Zone ID' if you specified 'DomainName.''"
   GenerateOrProvideSSL:
     RuleCondition: !Not [!Equals [!Ref ACMSSLCertificateArn, '']]
     Assertions:
       - Assert: !And
           - !Equals [!Ref HostedZoneID, '']
           - !Equals [!Ref DomainName, '']
-        AssertDescription: "Using an SSL certificate is enforced. A CertificateArn or a HostedZoneID and Domain Name must be provided."
+        AssertDescription: "Using an SSL certificate is enforced. A 'CertificateArn' or a 'HostedZoneID' and domain name must be provided."
   NoLoadBalancerInfoSupplied:
     Assertions:
       - Assert: !Or
