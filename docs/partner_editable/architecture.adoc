@@ -1,17 +1,17 @@
 In AWS:
 
 * Elastic Load Balancer for the Vault UI service.
-* Amazon Certificate Manager(ACM) certificate for the Vault UI service.
-* boot-vault IAM Role used to bootstrap the Vault servers.
-* vault-server IAM Role used for Vault to access KMS for auto unseal.
-* AWS Secrets Manager secret to store the {partner-product-name} root secret.
-* Auto-unseal AWS Key Management Service(KMS) key used for auto unseal.
+* AWS Certificate Manager (ACM) certificate for the Vault UI service.
+* A boot-vault IAM role to bootstrap the Vault servers.
+* A vault-server IAM role for Vault to access AWS Key Management Service (AWS KMS) for auto unseal.
+* AWS Secrets Manager to store the {partner-product-name} root secret.
+* An AWS Key Management Service (KMS) key for auto unseal.
 
 In Kubernetes:
 
-* Dedicated nodegroup for {partner-product-name}.
-* Dedicated namespace for {partner-product-name}.
-* Internal Vault TLS certificate and certificate authority for secure communication.
-* Vault service:
+* A dedicated node group for {partner-product-name}.
+* A dedicated namespace for {partner-product-name}.
+* An internal Vault TLS certificate and certificate authority for securing communications.
+* For the Vault service:
 ** Vault server pods.
 ** Vault UI service.

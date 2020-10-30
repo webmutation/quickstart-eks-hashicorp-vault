@@ -843,7 +843,7 @@ p.footer-text a{color:#d7d8d8}
 </div>
 <div class="paragraph text-center">
 <p><strong>October 2020</strong><br>
-<em>Dan Callao, HashiCorp</em><br>
+<em>Daniel Callao, HashiCorp</em><br>
 <em>Andrew Gargan, AWS Quick Start team</em></p>
 </div>
 <div class="admonitionblock tip text-left">
@@ -874,7 +874,8 @@ Vault&#8217;s Helm chart.</p>
 </div>
 <div class="paragraph">
 <p>HashiCorp Vault is a product that centrally secures, stores, and controls access to
-tokens, passwords, certificates, and encryption keys through a UI, CLI, or an HTTP API.</p>
+tokens, passwords, certificates, and encryption keys through a UI,
+command line interface, or an HTTP API.</p>
 </div>
 <div class="paragraph">
 <p>HashiCorp Vault&#8217;s core use cases include the following:</p>
@@ -897,7 +898,7 @@ management across different environments and services.</p>
 <div class="paragraph">
 <p>This Quick Start is for DevOps professionals and application developers who want to manage their secrets, data, and
 key-value stores. It is deployed via
-<a href="https://github.com/hashicorp/vault-helm" class="external" target="_blank" rel="noopener">HashiCorp Vault&#8217;s Helm chart</a>,
+<a href="https://github.com/hashicorp/vault-helm" target="_blank" rel="noopener">HashiCorp Vault&#8217;s Helm chart</a>,
 which contains all of the resource definitions to install and configure Vault inside of a Kubernetes cluster.</p>
 </div>
 <div class="admonitionblock note">
@@ -918,7 +919,9 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 <h2 id="_software_licenses">Software licenses</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>No licenses are required.</p>
+<p>The software included in this deployment is licensed under the Mozilla Public License. For more
+information, see <a href="https://github.com/hashicorp/vault/blob/master/LICENSE" target="_blank" rel="noopener">Mozilla Public License 2.0</a>.
+No other licenses are required.</p>
 </div>
 </div>
 </div>
@@ -946,19 +949,19 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 <p>Elastic Load Balancer for the Vault UI service.</p>
 </li>
 <li>
-<p>Amazon Certificate Manager(ACM) certificate for the Vault UI service.</p>
+<p>AWS Certificate Manager (ACM) certificate for the Vault UI service.</p>
 </li>
 <li>
-<p>boot-vault IAM Role used to bootstrap the Vault servers.</p>
+<p>A boot-vault IAM role to bootstrap the Vault servers.</p>
 </li>
 <li>
-<p>vault-server IAM Role used for Vault to access KMS for auto unseal.</p>
+<p>A vault-server IAM role for Vault to access AWS Key Management Service (AWS KMS) for auto unseal.</p>
 </li>
 <li>
-<p>AWS Secrets Manager secret to store the Vault on Amazon EKS root secret.</p>
+<p>AWS Secrets Manager to store the Vault on Amazon EKS root secret.</p>
 </li>
 <li>
-<p>Auto-unseal AWS Key Management Service(KMS) key used for auto unseal.</p>
+<p>An AWS Key Management Service (KMS) key for auto unseal.</p>
 </li>
 </ul>
 </div>
@@ -968,16 +971,16 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 <div class="ulist">
 <ul>
 <li>
-<p>Dedicated nodegroup for Vault on Amazon EKS.</p>
+<p>A dedicated node group for Vault on Amazon EKS.</p>
 </li>
 <li>
-<p>Dedicated namespace for Vault on Amazon EKS.</p>
+<p>A dedicated namespace for Vault on Amazon EKS.</p>
 </li>
 <li>
-<p>Internal Vault TLS certificate and certificate authority for secure communication.</p>
+<p>An internal Vault TLS certificate and certificate authority for securing communications.</p>
 </li>
 <li>
-<p>Vault service:</p>
+<p>For the Vault service:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -1008,7 +1011,7 @@ deploy, and operate your infrastructure and applications on the AWS
 Cloud.</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start assumes familiarity with <a href="https://aws.amazon.com/eks/">Amazon EKS</a>, <a href="https://aws.amazon.com/cloudformation/">AWS CloudFormation</a>, and <a href="https://kubernetes.io/">Kubernetes</a>.</p>
+<p>This Quick Start assumes familiarity with <a href="https://aws.amazon.com/eks/" target="_blank" rel="noopener">Amazon EKS</a>, <a href="https://aws.amazon.com/cloudformation/" target="_blank" rel="noopener">AWS CloudFormation</a>, and <a href="https://kubernetes.io/" target="_blank" rel="noopener">Kubernetes</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1458,9 +1461,8 @@ sure to delete the stack when you finish troubleshooting.
 </table>
 </div>
 <div class="paragraph">
-<p>For additional information, see
-<a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html" class="external" target="_blank" rel="noopener">Troubleshooting AWS CloudFormation</a>
-on the AWS website.</p>
+<p>For more information, see
+<a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html" target="_blank" rel="noopener">Troubleshooting AWS CloudFormation</a>.</p>
 </div>
 <div class="paragraph">
 <p><strong>Q.</strong> I encountered a size limitation error when I deployed the AWS CloudFormation templates.</p>
@@ -1468,8 +1470,8 @@ on the AWS website.</p>
 <div class="paragraph">
 <p><strong>A.</strong> We recommend that you launch the Quick Start templates from the links in this guide or from another S3 bucket. If
 you deploy the templates from a local copy on your computer or from a location other than an S3 bucket, you might
-encounter template size limitations. For more information about AWS CloudFormation quotas, see the
-<a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html" class="external" target="_blank" rel="noopener">AWS documentation</a>.</p>
+encounter template size limitations. For more information, see
+<a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html" target="_blank" rel="noopener">AWS CloudFormation quotas</a>.</p>
 </div>
 </div>
 </div>
@@ -1477,12 +1479,12 @@ encounter template size limitations. For more information about AWS CloudFormati
 <h2 id="_troubleshooting">Troubleshooting</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For general EKS troubleshooting steps see the
-<a href="https://aws-quickstart.github.io/quickstart-amazon-eks/" class="external" target="_blank" rel="noopener">EKS Quick Start documentation</a>.</p>
+<p>For troubleshooting Amazon EKS, see
+<a href="https://aws-quickstart.github.io/quickstart-amazon-eks/" target="_blank" rel="noopener">Amazon EKS on the AWS Cloud</a>.</p>
 </div>
 <div class="paragraph">
-<p>For HashiCorp Vault on Amazon EKS specific troubleshooting see
-<a href="https://learn.hashicorp.com/tutorials/vault/troubleshooting" class="external" target="_blank" rel="noopener">Vault troubleshooting documentation</a>.</p>
+<p>For troubleshooting HashiCorp Vault on Amazon EKS, see
+<a href="https://learn.hashicorp.com/collections/vault/monitoring" target="_blank" rel="noopener">Monitoring &amp; Troubleshooting</a>.</p>
 </div>
 </div>
 </div>
