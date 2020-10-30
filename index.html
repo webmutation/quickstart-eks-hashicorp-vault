@@ -810,7 +810,7 @@ p.footer-text a{color:#d7d8d8}
 </li>
 <li><a href="#_post_deployment_steps">Post deployment steps</a>
 <ul class="sectlevel2">
-<li><a href="#_test_the_deployment">Test the deployment</a></li>
+<li><a href="#_kubernetes_consul_deployment_namespace_and_dedicated_node_selection">Kubernetes Consul deployment namespace and dedicated node selection</a></li>
 <li><a href="#_best_practices_for_using_vault_on_aws">Best practices for using Vault on AWS</a></li>
 </ul>
 </li>
@@ -946,22 +946,22 @@ No other licenses are required.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Elastic Load Balancer for the Vault UI service.</p>
+<p>An Elastic Load Balancer for the Vault UI.</p>
 </li>
 <li>
-<p>AWS Certificate Manager (ACM) certificate for the Vault UI service.</p>
+<p>An AWS Certificate Manager (ACM) certificate for the Vault UI.</p>
 </li>
 <li>
-<p>A boot-vault IAM role to bootstrap the Vault servers.</p>
+<p>A <code>boot-vault</code> IAM role to bootstrap the Vault servers.</p>
 </li>
 <li>
-<p>A vault-server IAM role for Vault to access AWS Key Management Service (AWS KMS) for auto unseal.</p>
+<p>A <code>vault-server</code> IAM role for Vault to access AWS Key Management Service (AWS KMS) for auto unseal.</p>
 </li>
 <li>
 <p>AWS Secrets Manager to store the Vault on Amazon EKS root secret.</p>
 </li>
 <li>
-<p>An AWS Key Management Service (KMS) key for auto unseal.</p>
+<p>An AWS KMS key for auto unseal.</p>
 </li>
 </ul>
 </div>
@@ -987,7 +987,7 @@ No other licenses are required.</p>
 <p>Vault server pods.</p>
 </li>
 <li>
-<p>Vault UI service.</p>
+<p>A Vault UI.</p>
 </li>
 </ul>
 </div>
@@ -1231,9 +1231,7 @@ is provided in the <a href="#_parameter_reference">Parameter reference</a> secti
 <h2 id="_post_deployment_steps">Post deployment steps</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_test_the_deployment">Test the deployment</h3>
-<div class="sect3">
-<h4 id="_kubernetes_consul_deployment_namespace_and_dedicated_node_selection">Kubernetes Consul deployment namespace and dedicated node selection:</h4>
+<h3 id="_kubernetes_consul_deployment_namespace_and_dedicated_node_selection">Kubernetes Consul deployment namespace and dedicated node selection</h3>
 <div class="paragraph">
 <p>This deployment creates a <code>vault-server</code> namespace by default. Verify the namespace in Kubernetes:</p>
 </div>
@@ -1264,11 +1262,10 @@ vault-sg-01f5e0c0d6458ed88-2                                1/1     Running     
 vault-sg-01f5e0c0d6458ed88-agent-injector-b76f744b6-6pjp9   1/1     Running     0          26m   10.0.86.51    ip-10-0-86-92.eu-north-1.compute.internal    &lt;none&gt;           &lt;none&gt;</pre>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_kubernetes_services">Kubernetes services:</h4>
+<h4 id="_kubernetes_services">Kubernetes services</h4>
 <div class="paragraph">
-<p>This deployment creates at least seven services:</p>
+<p>Check that this deployment creates at least the following seven services:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1284,9 +1281,9 @@ vault-sg-01f5e0c0d6458ed88-ui                   LoadBalancer   172.20.59.230    
 </div>
 </div>
 <div class="sect3">
-<h4 id="_vault_ha_configuration">Vault HA configuration:</h4>
+<h4 id="_vault_configuration">Vault configuration</h4>
 <div class="paragraph">
-<p>Verify Vault&#8217;s high-availability configuration:</p>
+<p>Verify that Vault is configured for high availability (HA):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1325,11 +1322,14 @@ Raft Applied Index       119</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Note the HA Enabled, HA Cluster, and HA mode configuration entries in the previous output.</p>
+<p>In the previous output, note values for <code>HA Enabled</code>, <code>HA Cluster</code>, and <code>HA Mode</code> configuration entries.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_vault_ui_ssl_certificate_verify_the_dns_endpoint_of_the_deployment_and_check_for_the_ssl_certificate">Vault UI SSL certificate: Verify the DNS endpoint of the deployment, and check for the SSL certificate:</h4>
+<h4 id="_vault_ui_secure_socket_layer_ssl_certificate">Vault UI Secure Socket Layer (SSL) certificate</h4>
+<div class="paragraph">
+<p>Verify the DNS endpoint of the deployment, and check for the SSL certificate:</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre>$ openssl s_client -connect  lonconsul.gargana.myinstance.com:443
@@ -1376,9 +1376,9 @@ issuer=C = US, O = Amazon, OU = Server CA 1B, CN = Amazon
 </div>
 </div>
 <div class="sect3">
-<h4 id="_vault_raft_peer_election">Vault raft-peer election:</h4>
+<h4 id="_vault_raft_peer_election">Vault Raft-peer election</h4>
 <div class="paragraph">
-<p>Check the raft-peer election status:</p>
+<p>Check the Raft-peer election status:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1396,7 +1396,7 @@ vault-sg-01f5e0c0d6458ed88-2    vault-sg-01f5e0c0d6458ed88-2.vault-sg-01f5e0c0d6
 <div class="sect2">
 <h3 id="_best_practices_for_using_vault_on_aws">Best practices for using Vault on AWS</h3>
 <div class="paragraph">
-<p>The followng best practices are enabled by default for this Quick Start:</p>
+<p>The following best practices are enabled by default for this Quick Start:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1405,13 +1405,13 @@ vault-sg-01f5e0c0d6458ed88-2    vault-sg-01f5e0c0d6458ed88-2.vault-sg-01f5e0c0d6
 <a href="https://learn.hashicorp.com/tutorials/vault/autounseal-aws-kms" target="_blank" rel="noopener">Auto-unseal using AWS KMS</a>.</p>
 </li>
 <li>
-<p>Enable Cluster HA: This helps to ensure that Vault is set up for fault tolerance. For more information, see <a href="https://learn.hashicorp.com/tutorials/vault/raft-storage?in=vault/interactive" target="_blank" rel="noopener">Vault HA Cluster with Integrated Storage</a>.</p>
+<p>Enable cluster HA: This helps to ensure that Vault is set up for fault tolerance. For more information, see <a href="https://learn.hashicorp.com/tutorials/vault/raft-storage?in=vault/interactive" target="_blank" rel="noopener">Vault HA Cluster with Integrated Storage</a>.</p>
 </li>
 <li>
-<p>Enable Raft storage for  HA: This sets up the raft consensus protocol as Vault&#8217;s storage backend. For more information, see <a href="https://learn.hashicorp.com/tutorials/vault/raft-ha-storage?in=vault/interactive" target="_blank" rel="noopener">Use Integrated Storage for HA Coordination</a>.</p>
+<p>Enable Raft storage for HA: This sets up the Raft consensus protocol as Vault&#8217;s storage backend. For more information, see <a href="https://learn.hashicorp.com/tutorials/vault/raft-ha-storage?in=vault/interactive" target="_blank" rel="noopener">Use Integrated Storage for HA Coordination</a>.</p>
 </li>
 <li>
-<p>Enable Vault audit to AWS CloudWatch: This enables troubleshooting audit logs. For more information, see <a href="https://learn.hashicorp.com/tutorials/vault/troubleshooting-vault#enabling-audit-devices" target="_blank" rel="noopener">Enabling audit devices</a>.</p>
+<p>Enable Vault audit to Amazon CloudWatch: This lets you troubleshoot audit logs. For more information, see <a href="https://learn.hashicorp.com/tutorials/vault/troubleshooting-vault#enabling-audit-devices" target="_blank" rel="noopener">Enabling audit devices</a>.</p>
 </li>
 <li>
 <p>Enable SSL at the Vault UI endpoint: This helps to secure the Vault UI endpoint with an SSL certificate. For more information, see <a href="https://www.vaultproject.io/docs/configuration/ui" target="_blank" rel="noopener">Vault UI</a>.</p>
@@ -1443,7 +1443,7 @@ vault-sg-01f5e0c0d6458ed88-2    vault-sg-01f5e0c0d6458ed88-2.vault-sg-01f5e0c0d6
 <p><strong>A.</strong> If AWS CloudFormation fails to create the stack, we recommend that you relaunch the template with
 <strong>Rollback on failure</strong> set to <strong>Disabled</strong>. (This setting is under <strong>Advanced</strong> in the AWS CloudFormation console,
 <strong>Options</strong> page.) With this setting, the stack’s state is retained and the instance is left running, so you can
-troubleshoot the issue. (For Windows, look at the log files in %ProgramFiles%\Amazon\EC2ConfigService and C:\cfn\log.)</p>
+troubleshoot the issue. (For Windows, look at the log files in <code>%ProgramFiles%\Amazon\EC2ConfigService</code> and <code>C:\cfn\log</code>.)</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -1545,7 +1545,7 @@ encounter template size limitations. For more information, see
 <td class="tableblock halign-left valign-top"><p class="tableblock">Permitted IP range for Vault UI
 (<code>AccessCIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>127.0.0.1/32</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The CIDR IP range that is permitted to access Vault. Note: A value of 0.0.0.0/0 allows access from ANY IP address.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR IP range that is permitted to access Vault. Note that a value of 0.0.0.0/0 allows access from any IP address.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">First subnet ID for Auto Scaling group
@@ -1575,7 +1575,7 @@ encounter template size limitations. For more information, see
 <td class="tableblock halign-left valign-top"><p class="tableblock">EC2 key pair
 (<code>KeyPairName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing key pair, which allows you to securely connect to your instances after they launch.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing key pair, which helps to secure your connection to instances after they launch.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1604,7 +1604,7 @@ encounter template size limitations. For more information, see
 <td class="tableblock halign-left valign-top"><p class="tableblock">HashiCorp Vault deployment size
 (<code>VaultDeploymentSize</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>small</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Deployment size of dedicated HashiCorp Vault nodes (see <a href="https://learn.hashicorp.com/tutorials/vault/kubernetes-reference-architecture" class="bare">https://learn.hashicorp.com/tutorials/vault/kubernetes-reference-architecture</a>).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deployment size of dedicated HashiCorp Vault nodes. (see <a href="https://learn.hashicorp.com/tutorials/vault/kubernetes-reference-architecture" class="bare">https://learn.hashicorp.com/tutorials/vault/kubernetes-reference-architecture</a>).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Kubernetes namespace for Vault
@@ -1622,25 +1622,25 @@ encounter template size limitations. For more information, see
 <td class="tableblock halign-left valign-top"><p class="tableblock">Load balancer DNS name
 (<code>DomainName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified DNS name for the vault-ui service load balancer. If you don&#8217;t provide a value for "ACM SSL certificate ARN", use the HostedZoneID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified DNS name for the "vault-ui" service load balancer. If you don&#8217;t provide a value for "ACM SSL certificate ARN", use "HostedZoneID."</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53 hosted zone id
+<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53–hosted zone ID
 (<code>HostedZoneID</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53-hosted zone ID of the domain name. If you don&#8217;t provide an ACMSSLCertificateArn value, the Quick Start creates an ACM certificate for you using HostedZoneID in conjunction with Domain name.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53–hosted zone ID of the domain name. If you don&#8217;t provide a value for "ACMSSLCertificateArn,"" the Quick Start creates an ACM certificate for you using "HostedZoneID" in conjunction with the domain name.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ACM SSL certificate ARN
 (<code>ACMSSLCertificateArn</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ARN of the load balancer&#8217;s ACM SSL certificate. If you don&#8217;t provide values for "Domain name" and "Hosted zone id", provide a value for "ACM SSL certificate ARN".</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ARN of the load balancer&#8217;s ACM SSL certificate. If you don&#8217;t provide values for "Domain name" and "HostedZoneID," provide a value for "ACM SSL certificate ARN."</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">HashiCorp Vault server nodes
 (<code>Nodes</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The number of dedicated Vault server nodes and pods.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of dedicated Vault server nodes and pods.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1669,7 +1669,7 @@ encounter template size limitations. For more information, see
 <td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
 (<code>QSS3BucketRegion</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 object key prefix
