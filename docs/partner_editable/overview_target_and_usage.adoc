@@ -9,7 +9,10 @@ This Quick Start reference deployment guide provides step-by-step instructions f
 {partner-product-short-name}'s Helm chart.
 
 {partner-company-name} {partner-product-short-name} is a product that centrally secures, stores, and controls access to
-tokens, passwords, certificates, and encryption keys through a UI, CLI, or an HTTP API.
+tokens, passwords, certificates, and encryption keys through a UI, 
+//TODO Is "CLI" here a reference to the AWS CLI? If so, we should replace "command line interface"
+//with "AWS Command Line Interface (AWS CLI)".
+command line interface, or an HTTP API.
 
 {partner-company-name} {partner-product-short-name}'s core use cases include the following:
 
@@ -21,5 +24,5 @@ management across different environments and services.
 
 This Quick Start is for DevOps professionals and application developers who want to manage their secrets, data, and
 key-value stores. It is deployed via
-https://github.com/hashicorp/vault-helm[{partner-company-name} {partner-product-short-name}'s Helm chart, role=external, window=_blank],
+https://github.com/hashicorp/vault-helm[{partner-company-name} {partner-product-short-name}'s Helm chart^],
 which contains all of the resource definitions to install and configure Vault inside of a Kubernetes cluster.
