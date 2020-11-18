@@ -20,7 +20,7 @@
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
 |Parameter label (name) |Default value|Description|HashiCorp Vault version
-(`VaultVersion`)|`1.5.3`|Version of Vault to use.|HashiCorp Vault deployment size
+(`VaultVersion`)|`1.6.0`|Version of Vault to use.|HashiCorp Vault deployment size
 (`VaultDeploymentSize`)|`small`|Deployment size of dedicated HashiCorp Vault nodes. (see https://learn.hashicorp.com/tutorials/vault/kubernetes-reference-architecture).|Kubernetes namespace for Vault
 (`KubernetesNameSpace`)|`vault-server`|Kubernetes namespace for HashiCorp Vault server.|Internal or external load balancer?
 (`LoadBalancerType`)|`Internal`|Choose whether the load balancer for HashiCorp Vault is internal or external to the VPC.|Load balancer DNS name
