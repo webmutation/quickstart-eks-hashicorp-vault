@@ -103,10 +103,10 @@ Parameters:
     Description: ID of the private subnet in Availability Zone 3 of your existing VPC (e.g., subnet-fe9a8b32).
   VaultVersion:
     Type: String
-    Default: "1.5.3"
+    Default: "1.6.0"
     Description: Version of Vault to use.
     AllowedValues: 
-    - "1.5.3"
+     - "1.6.0"
   VaultDeploymentSize:
     Type: String
     Default: "small"
